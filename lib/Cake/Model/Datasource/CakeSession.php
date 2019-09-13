@@ -575,7 +575,7 @@ class CakeSession {
 			$sessionConfig['cacheLimiter'] = 'must-revalidate';
 		}
 
-		if (empty($_SESSION)) {
+		if (empty($_SESSION) && !headers_sent() && (!function_exists('session_status') || session_status() !== PHP_SESSION_ACTIVE)) {
 			if (!empty($sessionConfig['ini']) && is_array($sessionConfig['ini'])) {
 				foreach ($sessionConfig['ini'] as $setting => $value) {
 					if (ini_set($setting, $value) === false) {
